@@ -8,5 +8,6 @@ LOCAL_JAVA_LIBRARIES := autosdk
 LOCAL_PACKAGE_NAME := ScreenManager
 
 LOCAL_CERTIFICATE := platform
+LOCAL_PROGUARD_ENABLED := disabled
 
 include $(BUILD_PACKAGE)

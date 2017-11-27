@@ -2,5 +2,6 @@
 
     <string name="app_name">CommonManager</string>
      <string name="data">2017/8/4</string>
+       <string name="no_signal">No Signal</string>
 
 </resources>

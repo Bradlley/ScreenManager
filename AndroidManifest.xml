@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.soling.screenManager"
+    android:sharedUserId="android.uid.system"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -8,20 +9,25 @@
         android:targetSdkVersion="19" />
 
     <application
+        android:name="com.soling.screenManager.SolingApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" 
-        android:persistent="true">
-        
-          <uses-library android:name="com.soling.autosdk" />
-        
-        <service android:name="com.soling.screenManager.service.ScreenManagerService" >       
+        android:persistent="true"
+        android:theme="@style/AppTheme" >
+        <uses-library android:name="com.soling.autosdk" />
+
+        <service android:name="com.soling.screenManager.service.ScreenManagerService" >
             <intent-filter>
-<!--                 <action android:name="com.soling.auto.DTV_SERVICE" /> -->
-            </intent-filter>    
+
+                <!-- <action android:name="com.soling.auto.DTV_SERVICE" /> -->
+            </intent-filter>
         </service>
         
+        <service
+            android:name="com.soling.screenManager.blank.PresentationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

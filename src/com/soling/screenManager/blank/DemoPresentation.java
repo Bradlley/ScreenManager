@@ -1,5 +1,7 @@
 package com.soling.screenManager.blank;
 
+import com.soling.screenManager.R;
+
 import android.app.Presentation;
 import android.content.Context;
 import android.os.Bundle;
@@ -27,8 +29,8 @@ public class DemoPresentation extends Presentation {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		createLayout();
-		setContentView(mLayout);
+		/*createLayout();*/
+		setContentView(R.layout.screen_blank);
 	}
 
 	@Override
