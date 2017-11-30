@@ -15,8 +15,7 @@ public class ScreenStub extends IMultiScreenImp.Stub {
 
 	@Override
 	public boolean getCurrentBackScreenSwitch() throws RemoteException {
-		screenManagerService.isBackScreenSwitch();
-		return false;
+		return screenManagerService.isBackScreenSwitch();
 	}
 
 	@Override
@@ -39,6 +38,13 @@ public class ScreenStub extends IMultiScreenImp.Stub {
 
 	@Override
 	public void unregisterCmdCallback(IMultiScreenCallback arg0) throws RemoteException {
+		
+	}
+
+
+	@Override
+	public void showNavigation() throws RemoteException {
+		screenManagerService.showNavigation();
 		
 	}
 

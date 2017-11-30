@@ -4,6 +4,13 @@ import com.soling.autosdk.multiscreen.MultiScreenConst;
 import com.soling.autosdk.source.SourceConst.App;
 import com.soling.autosdk.systemui.Ui;
 import com.soling.autosdk.systemui.imp.UiListenerImp;
+import com.soling.autosdk.vehicle.AVMInfo;
+import com.soling.autosdk.vehicle.AmbientLightInfo;
+import com.soling.autosdk.vehicle.CarBodyStatusInfo;
+import com.soling.autosdk.vehicle.RadarInfo;
+import com.soling.autosdk.vehicle.TpmsInfo;
+import com.soling.autosdk.vehicle.Vehicle;
+import com.soling.autosdk.vehicle.imp.VehicleListenerImp;
 import com.soling.screenManager.ScreenManager;
 
 import android.os.RemoteException;
@@ -37,6 +44,17 @@ public class BackScreenManagerUtil {
 			public void updateMenuAppResponse(App app) {
 				manager.MultoBackScreenCallback();
 			}
+		});
+		
+		Vehicle.getInstance().registerListener(new VehicleListenerImp() {
+			
+
+			
+			@Override
+			public void onReverseStateResponse(boolean response) {
+				manager.onReverseStateResponse(response);
+			}
+			
 		});
 
 	}

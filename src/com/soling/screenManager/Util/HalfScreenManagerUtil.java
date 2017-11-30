@@ -7,6 +7,8 @@ import com.soling.autosdk.os.SocConst;
 import com.soling.autosdk.source.SourceConst.App;
 import com.soling.screenManager.ScreenManager;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -24,7 +26,6 @@ public class HalfScreenManagerUtil {
 	private static final String ACTION_NAVI_OPEN_HALF = "jp.intent.action.open.AVSIDEVIEW";
 	private static final String ACTION_NAVI_CLOSE_HALF = "jp.intent.action.close.AVSIDEVIEW";
 	private static final String ACTION_NAVI_CLOSE_ALREADY = "jp.incrementp.car.navi.NAVIGATION_IS_READY_TO_FINISH";
-	
 
 	public HalfScreenManagerUtil(Context context, ScreenManager manager) {
 		this.context = context;
@@ -34,6 +35,7 @@ public class HalfScreenManagerUtil {
 
 	public void registBroadcastReceiver() {
 		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addCategory("android.intent.category.DEFAULT");
 		intentFilter.addAction(ACTION_NAVI_READY);// 导航启动完成
 		intentFilter.addAction(ACTION_NAVI_OPEN_HALF);
 		intentFilter.addAction(ACTION_NAVI_CLOSE_HALF);
@@ -45,7 +47,7 @@ public class HalfScreenManagerUtil {
 		intentFilter.addAction(ACTION_APP_CLOSE_HALF);
 		intentFilter.addAction(ACTION_APP_CLOSE_NAVI);
 		intentFilter.addAction(SocConst.ACTION_AUTO_CORE);
-		
+		intentFilter.addAction(JP_NAVI_START);
 		context.registerReceiver(broadcastReceiver, intentFilter);
 	}
 
@@ -53,34 +55,54 @@ public class HalfScreenManagerUtil {
 	private static final String ACTION_APP_CLOSE_HALF = "com.incrementp.video.setfullscreen";// 关闭半屏
 	private static final String ACTION_APP_CLOSE_HALF_NOVIDEO = "com.incrementp.novideo.setfullscreen";// 关闭半屏无空白
 	private static final String ACTION_APP_CLOSE_NAVI = "jp.incrementp.ceam.EXTEND_ACTION_NAVI_SUSPEND";// 关闭导航
-	private static final String ACTION_APP_POSITION ="jp.incrementp.car.navi.SHOW_CURRENT_VEHICLE_POSITION";// 显示当前地图位置
+	private static final String ACTION_APP_POSITION = "jp.incrementp.car.navi.SHOW_CURRENT_VEHICLE_POSITION";// 显示当前地图位置
+
+	private static final String JP_NAVI_START = "com.soling.JP_NAVI_START";
+
 
 	/**
 	 * app请求开启半屏幕显示模式
 	 */
 	public void setHalfScreen() {
+		manager.setShowMode(manager.NAVI_MODE_HALF);
 		Intent intent = new Intent();
 		intent.setAction(ACTION_APP_OPEN_HALF);
 		context.sendBroadcast(intent);
+		setStatusToAutoCore();
 	}
 
 	/**
 	 * app请求开启全屏幕显示模式
 	 */
 	public void setFullScreen() {
+		manager.setShowMode(manager.NAVI_MODE_MEDIA);
 		Intent intent = new Intent();
 		intent.setAction(ACTION_APP_CLOSE_HALF);
 		context.sendBroadcast(intent);
+		setStatusToAutoCore();
 	}
 
 	/**
 	 * app请求开启全屏幕显示模式无av模式
 	 */
 	public void setFullScreenWithNoVideo() {
+		manager.setShowMode(manager.NAVI_MODE_NO_MEDIA);
 		Intent intent = new Intent();
 		intent.setAction(ACTION_APP_CLOSE_HALF_NOVIDEO);
 		context.sendBroadcast(intent);
+		setStatusToAutoCore();
 	}
+	
+	/**
+	 * app请求开启全屏幕显示模式无av模式
+	 */
+	public void setStatusToAutoCore() {
+		Intent intent = new Intent();
+		intent.setAction(JP_NAVI_START);
+		context.sendBroadcast(intent);
+	}
+	
+	
 
 	BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
@@ -96,7 +118,8 @@ public class HalfScreenManagerUtil {
 				manager.closeHalfScreen();
 			} else if (ACTION_NAVI_CLOSE_ALREADY.equals(name)) {
 				manager.closeHalfScreen();
-			}else if (SocConst.ACTION_AUTO_CORE.equals(name)) {
+				manager.setShowMode(manager.NAVI_MODE_DEFAULT);
+			} else if (SocConst.ACTION_AUTO_CORE.equals(name)) {
 				manager.registScreenSource();
 			}
 		}
@@ -121,8 +144,6 @@ public class HalfScreenManagerUtil {
 		}
 		return MultiScreenConst.CurrentBackScreenCustom.APP_Blank;
 	}
-
-
 
 	public void doStartApplicationWithPackageName(String packagename) {
 
@@ -159,8 +180,24 @@ public class HalfScreenManagerUtil {
 			ComponentName cn = new ComponentName(packageName, className);
 
 			intent.setComponent(cn);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(intent);
 		}
 	}
+    public boolean isProessRunning(String proessName) {  
+        
+        boolean isRunning = false;  
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);  
+      
+        List<RunningAppProcessInfo> lists = am.getRunningAppProcesses();  
+        for(RunningAppProcessInfo info : lists){  
+            if(info.processName.equals(proessName)){  
+                //Log.i("Service2进程", ""+info.processName);  
+                isRunning = true;  
+            }  
+        }  
+          
+        return isRunning;  
+    }  
 
 }

@@ -9,7 +9,10 @@ import com.soling.screenManager.Util.ProjectUtil;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Handler.Callback;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 
@@ -36,8 +39,7 @@ public class ScreenManagerService extends Service implements ProjectCallBack {
 	public void onInitCompleted() {
 		LogUtil.d(TAG, "onInitCompleted");
 		screenStub = new ScreenStub(ScreenManagerService.this);
-		ServiceManager.addService(MultiScreenConst.IBINDER_MULTISCREEN,
-				screenStub);
+		ServiceManager.addService(MultiScreenConst.IBINDER_MULTISCREEN, screenStub);
 	}
 
 	public void registerCmdCallback(IMultiScreenCallback iMultoScreenCallback) {
@@ -64,12 +66,27 @@ public class ScreenManagerService extends Service implements ProjectCallBack {
 		LogUtil.d(TAG, "setHalfScreenmode ");
 		screenManager.setHalfScreenmode();
 	}
-	
-	public void dealNaviKeycode() {
+
+	Handler handler = new Handler(new Callback() {
+
+		@Override
+		public boolean handleMessage(Message msg) {
+			switch (msg.what) {
+			case 0:
+				screenManager.showNavigation();
+				break;
+
+			default:
+				break;
+			}
+			return false;
+		}
+	});
+
+	public void showNavigation() {
+		// Message message=new Message();
+		handler.sendEmptyMessage(0);
 
 	}
-	
-	
 
-	
 }
