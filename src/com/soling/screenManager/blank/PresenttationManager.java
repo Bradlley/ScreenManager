@@ -143,13 +143,17 @@ public class PresenttationManager implements DisplayListener {
 	@Override
 	public void onDisplayAdded(int arg0) {
 		LogUtil.i(TAG, "onDisplayAdded");
-		mDisplays = mDisplayManager.getDisplays();
+		mDisplays = mDisplayManager.getDisplays();	
+		if(!mIsShowingPresent){
+			showAllDisPlay();
+		}
 	}
 
 	@Override
 	public void onDisplayChanged(int arg0) {
 		LogUtil.i(TAG, "onDisplayChanged");
 		mDisplays = mDisplayManager.getDisplays();
+		
 
 	}
 
