@@ -13,6 +13,10 @@
         android:textColor="#f1d167"
         android:textSize="25sp" />
 
+    <!--
+    android:text="@string/no_signal"
+    android:textColor="#f1d167"
+    -->
     <!-- <com.soling.camreamanager.preview.CameraGLSurfaceView -->
     <!-- android:id="@+id/sufaceView" -->
     <!-- android:layout_width="634dp" -->

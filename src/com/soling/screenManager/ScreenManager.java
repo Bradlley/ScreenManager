@@ -36,7 +36,6 @@ public class ScreenManager {
 		this.context = context;
 		backScreenManagerUtil = new BackScreenManagerUtil(this);
 		halfScreenManagerUtil = new HalfScreenManagerUtil(context, this);
-		PresenttationManager.getInstence(null).showAllDisPlay();// 默認blank显示
 	}
 
 	public void registerCmdCallback(IMultiScreenCallback callback) throws RemoteException {
@@ -55,7 +54,7 @@ public class ScreenManager {
 			case MSEEAGE_SET_BACKSCREEN:
 				CurrentBackScreenCustom = message.arg1;
 				if (CurrentBackScreenCustom == MultiScreenConst.CurrentBackScreenCustom.APP_Blank) {
-					PresenttationManager.getInstence(null).showAllDisPlay();
+					PresenttationManager.getInstence(context).showAllDisPlay();
 				}
 				onBackScreenResponse(CurrentBackScreenCustom);
 
@@ -185,9 +184,9 @@ public class ScreenManager {
 			handler.sendMessage(message);
 		} else {
 			MultoBackScreenCallback();
-			if (source.getCurrentSource().equals(App.MX_NAVI)) {
-				showNavigation();
-			}
+			// if (source.getCurrentSource().equals(App.MX_NAVI)) {
+			// showNavigation();
+			// }
 		}
 
 	}
@@ -197,6 +196,8 @@ public class ScreenManager {
 	public void registScreenSource() {
 		try {
 			backScreenManagerUtil.registAutoCore();
+			// 开机显示初始化
+			MultoBackScreenCallback();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

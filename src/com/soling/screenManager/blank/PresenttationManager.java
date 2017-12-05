@@ -87,14 +87,8 @@ public class PresenttationManager implements DisplayListener {
 			LogUtil.i(TAG, "onServiceConnected");
 			mService = ((PresentationService.LocalBinder) service).getService();
 			mDisplays = mDisplayManager.getDisplays();
-			int numDisplays = mDisplays.length;
-			for (int i = 0; i < numDisplays; i++) {
-				if (i == 0) {
-					continue;
-				}
-				mService.disMiss();
-				mIsShowingPresent = false;
-			}
+			mIsShowingPresent = false;
+			showAllDisPlay();
 		}
 
 		@Override

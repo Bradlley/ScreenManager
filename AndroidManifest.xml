@@ -23,11 +23,10 @@
                 <!-- <action android:name="com.soling.auto.DTV_SERVICE" /> -->
             </intent-filter>
         </service>
-        
         <service
             android:name="com.soling.screenManager.blank.PresentationService"
-            android:enabled="true"
-            android:exported="true"></service>
+            android:enabled="true" >
+        </service>
     </application>
 
 </manifest>

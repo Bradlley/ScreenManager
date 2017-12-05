@@ -6,6 +6,7 @@ import com.soling.autosdk.util.LogUtil;
 import com.soling.screenManager.ScreenManager;
 import com.soling.screenManager.Util.ProjectCallBack;
 import com.soling.screenManager.Util.ProjectUtil;
+import com.soling.screenManager.blank.PresenttationManager;
 
 import android.app.Service;
 import android.content.Intent;
@@ -25,6 +26,7 @@ public class ScreenManagerService extends Service implements ProjectCallBack {
 	public void onCreate() {
 		super.onCreate();
 		LogUtil.d(TAG, "onCreate");
+		
 		ProjectUtil projectUtil = new ProjectUtil(this);
 		screenManager = new ScreenManager(this);
 	}

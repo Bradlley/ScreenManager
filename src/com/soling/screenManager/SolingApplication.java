@@ -21,8 +21,7 @@ public final class SolingApplication extends Application {
 		super.onCreate();
 		startService(new Intent(this, ScreenManagerService.class));
 		LogUtil.i(TAG, "DtvService start! Pid="+Process.myPid());
-
-		PresenttationManager.getInstence(getApplicationContext()).showAllDisPlay();
+		PresenttationManager.getInstence(this);
 	}
 
 	@Override
